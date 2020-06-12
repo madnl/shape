@@ -14,7 +14,7 @@ class LiteralShape<T> implements Shape<T> {
     this.literalValue = literalValue;
   }
 
-  check(value: unknown): T | Mismatch {
+  verify(value: unknown): T | Mismatch {
     return value === this.literalValue ? (value as T) : mismatch(this, value);
   }
 }

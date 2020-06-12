@@ -12,13 +12,13 @@ class ArrayShape<T> implements Shape<T[]> {
     this.itemType = itemType;
   }
 
-  check(value: unknown): T[] | Mismatch {
+  verify(value: unknown): T[] | Mismatch {
     if (!Array.isArray(value)) {
       return mismatch(this, value);
     }
     for (let index = 0; index < value.length; index++) {
       const item = value[index];
-      const result = this.itemType.check(item);
+      const result = this.itemType.verify(item);
       if (isMismatch(result)) {
         return nestedMismatch(`[${index}]`, result);
       }

@@ -30,7 +30,7 @@ class UnionShape<T> implements Shape<T> {
     this.shapes = shapes;
   }
 
-  check(value: unknown): Mismatch | T {
+  verify(value: unknown): Mismatch | T {
     if (this.shapes.find((shape) => guard(shape, value))) {
       return value as T;
     } else {

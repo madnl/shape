@@ -1,20 +1,41 @@
+import { extendedTypeOf } from './util';
+
 export interface Shape<T> {
-  check(value: unknown): Mismatch | T;
+  verify(value: unknown): Mismatch | T;
 }
+
+export type Static<T extends Shape<unknown>> = T extends Shape<infer U> ? U : never;
 
 export type ValidationResult<T> =
   | { success: true; value: T }
   | { success: false; mismatch: Mismatch };
 
 export function validate<T>(shape: Shape<T>, value: unknown): ValidationResult<T> {
-  const result = shape.check(value);
+  const result = shape.verify(value);
   return isMismatch(result)
     ? { success: false, mismatch: result }
     : { success: true, value: result };
 }
 
 export function guard<T>(shape: Shape<T>, value: unknown): value is T {
-  return !shape.check(value);
+  return !shape.verify(value);
+}
+
+export function check<T>(shape: Shape<T>, value: unknown): T {
+  const result = shape.verify(value);
+  if (isMismatch(result)) {
+    throw new ValidationError(result);
+  }
+  return result;
+}
+
+export class ValidationError extends Error {
+  public readonly mismatch: Mismatch;
+
+  constructor(mismatch: Mismatch) {
+    super(mismatch.message());
+    this.mismatch = mismatch;
+  }
 }
 
 export class Mismatch {
@@ -26,6 +47,12 @@ export class Mismatch {
     this.shape = shape;
     this.value = value;
     this.path = path;
+  }
+
+  message(): string {
+    return `Error at ${this.path.join('.')}: Expected a shape but got ${extendedTypeOf(
+      this.value
+    )}`;
   }
 }
 

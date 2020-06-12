@@ -1,8 +1,8 @@
 import { Shape } from '.';
-import { Mismatch, mismatch, isMismatch, nestedMismatch } from './core';
+import { Mismatch, mismatch, isMismatch, nestedMismatch, Static } from './core';
 
 type TypeFromObjectShape<ObjShapeT extends { [key: string]: Shape<unknown> }> = {
-  [K in keyof ObjShapeT]: Shape<ObjShapeT[K]>;
+  [K in keyof ObjShapeT]: Static<ObjShapeT[K]>;
 };
 
 type FieldShapes = { [key: string]: Shape<unknown> };
@@ -22,14 +22,14 @@ class ObjectShape<ObjShapeT extends FieldShapes> implements Shape<TypeFromObject
     this.pairs = Object.keys(fieldShapes).map((key) => ({ key, shape: fieldShapes[key] }));
   }
 
-  check(objectValue: unknown): TypeFromObjectShape<ObjShapeT> | Mismatch {
+  verify(objectValue: unknown): TypeFromObjectShape<ObjShapeT> | Mismatch {
     if (typeof objectValue !== 'object' || !objectValue) {
       return mismatch(this, objectValue);
     }
     for (let i = 0; i < this.pairs.length; i++) {
       const { key, shape } = this.pairs[i];
       const value = (objectValue as any)[key];
-      const result = shape.check(value);
+      const result = shape.verify(value);
       if (isMismatch(result)) {
         return nestedMismatch(key, result);
       }

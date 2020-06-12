@@ -12,10 +12,10 @@ class AndShape<T> implements Shape<T> {
     this.shapes = shapes;
   }
 
-  check(value: unknown): T | Mismatch {
+  verify(value: unknown): T | Mismatch {
     for (let i = 0; i < this.shapes.length; i++) {
       const shape = this.shapes[i];
-      const result = shape.check(value);
+      const result = shape.verify(value);
       if (isMismatch(result)) {
         return mismatch(shape, value);
       }
