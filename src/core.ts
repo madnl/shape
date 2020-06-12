@@ -29,7 +29,7 @@ export class Mismatch {
   }
 }
 
-export function mismatch({ value, shape }: { value: unknown; shape: Shape<unknown> }): Mismatch {
+export function mismatch(shape: Shape<unknown>, value: unknown): Mismatch {
   return new Mismatch([], shape, value);
 }
 

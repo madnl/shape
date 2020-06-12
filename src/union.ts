@@ -1,4 +1,4 @@
-import { Shape, matches, mismatch } from './core';
+import { Shape, matches, mismatch, Mismatch } from './core';
 
 export function union<T1, T2>(shape1: Shape<T1>, shape2: Shape<T2>): Shape<T1 | T2>;
 export function union<T1, T2, T3>(
@@ -20,14 +20,21 @@ export function union<T1, T2, T3, T4, T5>(
   shape5: Shape<T5>
 ): Shape<T1 | T2 | T3 | T4 | T5>;
 export function union<T>(...shapes: readonly Shape<T>[]): Shape<T> {
-  const unionShape: Shape<T> = {
-    check(value: unknown) {
-      if (shapes.find((shape) => matches(shape, value))) {
-        return value as any;
-      } else {
-        return mismatch({ value, shape: unionShape });
-      }
-    },
-  };
-  return unionShape;
+  return new UnionShape(shapes);
+}
+
+class UnionShape<T> implements Shape<T> {
+  public readonly shapes: readonly Shape<T>[];
+
+  constructor(shapes: readonly Shape<T>[]) {
+    this.shapes = shapes;
+  }
+
+  check(value: unknown): Mismatch | T {
+    if (this.shapes.find((shape) => matches(shape, value))) {
+      return value as T;
+    } else {
+      return mismatch(this, value);
+    }
+  }
 }

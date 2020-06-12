@@ -24,7 +24,7 @@ class ObjectShape<ObjShapeT extends FieldShapes> implements Shape<TypeFromObject
 
   check(objectValue: unknown): TypeFromObjectShape<ObjShapeT> | Mismatch {
     if (typeof objectValue !== 'object' || !objectValue) {
-      return mismatch({ value: objectValue, shape: this });
+      return mismatch(this, objectValue);
     }
     for (let i = 0; i < this.pairs.length; i++) {
       const { key, shape } = this.pairs[i];

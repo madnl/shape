@@ -33,7 +33,7 @@ class Tuple<T> implements Shape<T[]> {
 
   check(value: unknown): T[] | Mismatch {
     if (!Array.isArray(value) || value.length !== this.itemTypes.length) {
-      return mismatch({ value, shape: this });
+      return mismatch(this, value);
     }
     for (let i = 0; i < this.itemTypes.length; i++) {
       const itemType = this.itemTypes[i];

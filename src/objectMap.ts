@@ -13,7 +13,7 @@ class ObjectMapShape<V> implements Shape<Record<string, V>> {
 
   check(objectValue: unknown): Record<string, V> | Mismatch {
     if (typeof objectValue !== 'object' || !objectValue) {
-      return mismatch({ value: objectValue, shape: this });
+      return mismatch(this, objectValue);
     }
     for (const key in objectValue) {
       if (objectValue.hasOwnProperty(key)) {

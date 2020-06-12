@@ -14,7 +14,7 @@ class ArrayShape<T> implements Shape<T[]> {
 
   check(value: unknown): T[] | Mismatch {
     if (!Array.isArray(value)) {
-      return mismatch({ value, shape: this });
+      return mismatch(this, value);
     }
     for (let index = 0; index < value.length; index++) {
       const item = value[index];
