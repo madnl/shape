@@ -1,0 +1,11 @@
+{
+  "name": "shape",
+  "version": "0.0.1",
+  "description": "A library for data shape validation",
+  "main": "dist/index.js",
+  "author": "Marius Danila",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.9.5"
+  }
+}
