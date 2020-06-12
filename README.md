@@ -70,7 +70,7 @@ use the `validate` function which returns an object with a `success: true | fals
 with the right type if the validation passed or an `mismatch` field indicating where the error occurred.
 
 ```ts
-const validation = check(TodoList, await fetchTodoList());
+const validation = validate(TodoList, await fetchTodoList());
 
 if (validation.success) {
   const response: TodoList = validation.value;
