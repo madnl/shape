@@ -10,10 +10,10 @@ export function validate<T>(shape: Shape<T>, value: unknown): ValidationResult<T
   const result = shape.check(value);
   return isMismatch(result)
     ? { success: false, mismatch: result }
-    : { success: true, value: value as any };
+    : { success: true, value: result };
 }
 
-export function matches<T>(shape: Shape<T>, value: unknown): value is T {
+export function guard<T>(shape: Shape<T>, value: unknown): value is T {
   return !shape.check(value);
 }
 
