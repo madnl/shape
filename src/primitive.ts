@@ -9,7 +9,7 @@ class PrimitiveShape<T> implements Shape<T> {
   }
 
   check(value: unknown): T | Mismatch {
-    return typeof value === this.typeId ? (value as any) : mismatch(this, value);
+    return typeof value === this.typeId ? (value as T) : mismatch(this, value);
   }
 }
 

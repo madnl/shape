@@ -1,4 +1,5 @@
 import { Shape, mismatch, Mismatch, validate, isMismatch, nestedMismatch } from './core';
+import { string } from './primitive';
 
 export function objectMap<V>(valueType: Shape<V>): Shape<Record<string, V>> {
   return new ObjectMapShape(valueType);
@@ -24,6 +25,6 @@ class ObjectMapShape<V> implements Shape<Record<string, V>> {
         }
       }
     }
-    return objectValue as any;
+    return objectValue as Record<string, V>;
   }
 }
