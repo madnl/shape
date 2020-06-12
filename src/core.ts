@@ -10,12 +10,28 @@ export type Static<T extends Shape<unknown>> = T extends Shape<infer U> ? U : ne
 
 export type ValidationResult<T> =
   | { success: true; value: T }
-  | { success: false; mismatch: Mismatch };
+  | {
+      success: false;
+      mismatch: {
+        expectedShape: Shape<unknown>;
+        givenValue: unknown;
+        message: string;
+        path: string;
+      };
+    };
 
 export function validate<T>(shape: Shape<T>, value: unknown): ValidationResult<T> {
   const result = shape.verify(value);
   return isMismatch(result)
-    ? { success: false, mismatch: result }
+    ? {
+        success: false,
+        mismatch: {
+          expectedShape: result.shape,
+          givenValue: result.value,
+          message: result.message(),
+          path: joinPath(result.path),
+        },
+      }
     : { success: true, value: result };
 }
 
@@ -52,9 +68,7 @@ export class Mismatch {
   }
 
   message(): string {
-    return `Error at .${this.path.join('.')}: Expected ${this.shape} but got ${extendedTypeOf(
-      this.value
-    )}`;
+    return `Error at ${joinPath}: Expected ${this.shape} but got ${extendedTypeOf(this.value)}`;
   }
 }
 
@@ -68,4 +82,8 @@ export function nestedMismatch(pathSegment: string, nested: Mismatch): Mismatch 
 
 export function isMismatch(x: unknown): x is Mismatch {
   return x instanceof Mismatch;
+}
+
+function joinPath(path: readonly string[]): string {
+  return `.${path.join('.')}`;
 }

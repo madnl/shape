@@ -1,9 +1,8 @@
 import { Shape, mismatch } from './core';
 import { union } from './union';
-import { literal } from './literal';
 
 export { Shape } from './core';
-export { shape } from './shape';
+export { record, partial } from './object';
 export { array } from './array';
 export { string, number, boolean } from './primitive';
 export { union } from './union';

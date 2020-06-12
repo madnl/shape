@@ -20,7 +20,7 @@ class ObjectMapShape<V> implements Shape<Record<string, V>> {
         const value: unknown = (objectValue as any)[key];
         const result = this.valueType.verify(value);
         if (isMismatch(result)) {
-          nestedMismatch(`[${key}]`, result);
+          return nestedMismatch(`[${key}]`, result);
         }
       }
     }

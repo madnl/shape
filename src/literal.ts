@@ -24,6 +24,6 @@ class LiteralShape<T extends number | string | boolean> implements Shape<T> {
   }
 
   toString(): string {
-    return `literal(${JSON.stringify(this.value)})`;
+    return JSON.stringify(this.value);
   }
 }

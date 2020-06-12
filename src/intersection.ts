@@ -1,7 +1,26 @@
 import { Shape } from '.';
 import { Mismatch, isMismatch, mismatch } from './core';
 
-export function and<T>(...shapes: readonly Shape<T>[]): Shape<T> {
+export function intersection<T1, T2>(shape1: Shape<T1>, shape2: Shape<T2>): Shape<T1 & T2>;
+export function intersection<T1, T2, T3>(
+  shape1: Shape<T1>,
+  shape2: Shape<T2>,
+  shape3: Shape<T3>
+): Shape<T1 & T2 & T3>;
+export function intersection<T1, T2, T3, T4>(
+  shape1: Shape<T1>,
+  shape2: Shape<T2>,
+  shape3: Shape<T3>,
+  shape4: Shape<T4>
+): Shape<T1 & T2 & T3 & T4>;
+export function intersection<T1, T2, T3, T4, T5>(
+  shape1: Shape<T1>,
+  shape2: Shape<T2>,
+  shape3: Shape<T3>,
+  shape4: Shape<T4>,
+  shape5: Shape<T5>
+): Shape<T1 & T2 & T3 & T4 & T5>;
+export function intersection<T>(...shapes: readonly Shape<T>[]): Shape<T> {
   return new AndShape(shapes);
 }
 
