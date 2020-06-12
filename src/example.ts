@@ -4,6 +4,8 @@ import { objectMap } from './objectMap';
 import { union } from './union';
 import { literal } from './literal';
 import { check } from './core';
+import { tuple, optional } from './index';
+import { nonZeroPositiveInteger } from './numeric';
 
 const Field = union(
   shape({ fieldType: literal('stringField'), value: string }),
@@ -25,13 +27,10 @@ const payload = {
   },
 };
 
-const obj: {
-  flow: string;
-  mode: string;
-  fields: Record<
-    string,
-    { fieldType: 'stringField'; value: string } | { fieldType: 'numberField'; value: number }
-  >;
-} = check(Moneyball, payload);
+check(Moneyball, payload);
 
-console.log(obj);
+// console.log(obj);
+
+const Coordinate = tuple(nonZeroPositiveInteger, shape({ field: optional(string) }));
+
+check(Coordinate, [10, { field: 2 }]);

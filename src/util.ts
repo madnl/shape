@@ -7,3 +7,7 @@ export function extendedTypeOf(value: unknown): string {
   }
   return typeof value;
 }
+
+export function constant<T>(x: T): () => T {
+  return () => x;
+}

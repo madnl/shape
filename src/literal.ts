@@ -1,20 +1,29 @@
 import { Shape } from '.';
 import { Mismatch, mismatch } from './core';
 
-export function literal<T extends string | number | boolean | null | undefined>(
-  literalValue: T
-): Shape<T> {
+export function literal<T extends string | number | boolean>(literalValue: T): Shape<T> {
   return new LiteralShape(literalValue);
 }
 
-class LiteralShape<T> implements Shape<T> {
-  public readonly literalValue: T;
+class LiteralShape<T extends number | string | boolean> implements Shape<T> {
+  public readonly value: T;
 
   constructor(literalValue: T) {
-    this.literalValue = literalValue;
+    this.value = literalValue;
   }
 
-  verify(value: unknown): T | Mismatch {
-    return value === this.literalValue ? (value as T) : mismatch(this, value);
+  verify(givenValue: unknown): T | Mismatch {
+    return givenValue === this.value ? (givenValue as T) : mismatch(this, givenValue);
+  }
+
+  toJSON() {
+    return {
+      type: 'literal',
+      value: this.value,
+    };
+  }
+
+  toString(): string {
+    return `literal(${JSON.stringify(this.value)})`;
   }
 }

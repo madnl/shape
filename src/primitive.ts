@@ -1,4 +1,3 @@
-import { extendedTypeOf } from './util';
 import { Shape, mismatch, Mismatch } from './core';
 
 class PrimitiveShape<T> implements Shape<T> {
@@ -10,6 +9,16 @@ class PrimitiveShape<T> implements Shape<T> {
 
   verify(value: unknown): T | Mismatch {
     return typeof value === this.typeId ? (value as T) : mismatch(this, value);
+  }
+
+  toJSON() {
+    return {
+      type: this.typeId,
+    };
+  }
+
+  toString() {
+    return this.typeId;
   }
 }
 

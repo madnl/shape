@@ -2,6 +2,8 @@ import { extendedTypeOf } from './util';
 
 export interface Shape<T> {
   verify(value: unknown): Mismatch | T;
+  toJSON(): {};
+  toString(): string;
 }
 
 export type Static<T extends Shape<unknown>> = T extends Shape<infer U> ? U : never;
@@ -18,7 +20,7 @@ export function validate<T>(shape: Shape<T>, value: unknown): ValidationResult<T
 }
 
 export function guard<T>(shape: Shape<T>, value: unknown): value is T {
-  return !shape.verify(value);
+  return !isMismatch(shape.verify(value));
 }
 
 export function check<T>(shape: Shape<T>, value: unknown): T {
@@ -50,7 +52,7 @@ export class Mismatch {
   }
 
   message(): string {
-    return `Error at ${this.path.join('.')}: Expected a shape but got ${extendedTypeOf(
+    return `Error at .${this.path.join('.')}: Expected ${this.shape} but got ${extendedTypeOf(
       this.value
     )}`;
   }

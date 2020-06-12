@@ -1,4 +1,4 @@
-import { Shape } from './core';
+import { Shape, mismatch } from './core';
 import { union } from './union';
 import { literal } from './literal';
 
@@ -11,8 +11,33 @@ export { literal } from './literal';
 export { tuple } from './tuple';
 export { objectMap } from './objectMap';
 
-export const undefinedValue: Shape<undefined> = literal(undefined);
-export const nullValue: Shape<null> = literal(null);
+export const undefinedValue: Shape<undefined> = {
+  verify(value: unknown) {
+    return value === undefined ? value : mismatch(undefinedValue, value);
+  },
+
+  toJSON() {
+    return { type: 'undefined' };
+  },
+
+  toString() {
+    return 'undefined';
+  },
+};
+
+export const nullValue: Shape<null> = {
+  verify(value: unknown) {
+    return value === null ? value : mismatch(undefinedValue, value);
+  },
+
+  toJSON() {
+    return { type: 'null' };
+  },
+
+  toString() {
+    return 'null';
+  },
+};
 
 export function nullish<T>(underlyingType: Shape<T>): Shape<T | null | undefined> {
   return union(underlyingType, nullValue, undefinedValue);

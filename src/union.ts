@@ -37,4 +37,15 @@ class UnionShape<T> implements Shape<T> {
       return mismatch(this, value);
     }
   }
+
+  toJSON() {
+    return {
+      type: 'union',
+      shapes: this.shapes,
+    };
+  }
+
+  toString() {
+    return this.shapes.join(' | ');
+  }
 }

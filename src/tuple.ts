@@ -34,4 +34,15 @@ class TupleShape<ArrayT extends TupleOfShapes> implements Shape<TypeFromShapeTup
     }
     return (value as unknown) as TypeFromShapeTuple<ArrayT>;
   }
+
+  toJSON() {
+    return {
+      type: 'tuple',
+      items: this.itemTypes,
+    };
+  }
+
+  toString() {
+    return `[${this.itemTypes.join(', ')}]`;
+  }
 }
