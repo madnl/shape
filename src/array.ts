@@ -34,6 +34,6 @@ class ArrayShape<T> implements Shape<T[]> {
   }
 
   toString(): string {
-    return `ArrayOf(${this.itemType})`;
+    return `Array<${this.itemType}>`;
   }
 }
