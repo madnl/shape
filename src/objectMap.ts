@@ -27,13 +27,6 @@ class ObjectMapShape<V> implements Shape<Record<string, V>> {
     return objectValue as Record<string, V>;
   }
 
-  toJSON() {
-    return {
-      type: 'objectMap',
-      valueType: this.valueType,
-    };
-  }
-
   toString() {
     return `objectMapOf(${this.valueType})`;
   }

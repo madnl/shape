@@ -65,13 +65,6 @@ class ObjectShape<ObjShapeT extends FieldShapes> implements Shape<TypeFromObject
     return objectValue as TypeFromObjectShape<ObjShapeT>;
   }
 
-  toJSON() {
-    return {
-      type: 'object',
-      fields: this.fieldShapes,
-    };
-  }
-
   toString() {
     return `{ ${this.pairs.map(({ key, shape }) => `${key}: ${shape}`)} }`;
   }

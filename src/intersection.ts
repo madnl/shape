@@ -42,13 +42,6 @@ class AndShape<T> implements Shape<T> {
     return value as T;
   }
 
-  toJSON() {
-    return {
-      type: 'intersection',
-      shapes: this.shapes,
-    };
-  }
-
   toString(): string {
     return this.shapes.map((shape) => shape.toString()).join(' & ');
   }

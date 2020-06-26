@@ -26,13 +26,6 @@ class ArrayShape<T> implements Shape<T[]> {
     return value;
   }
 
-  toJSON(): {} {
-    return {
-      type: 'array',
-      itemType: this.itemType,
-    };
-  }
-
   toString(): string {
     return `Array<${this.itemType}>`;
   }

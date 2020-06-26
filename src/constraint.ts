@@ -49,13 +49,6 @@ class Constraint<T> implements Shape<T> {
     return this.predicate.call(undefined, result) ? result : mismatch(this, value);
   }
 
-  toJSON(): {} {
-    return {
-      type: 'constraint',
-      baseShape: this.baseShape,
-      constraint: this.introspection().jsonDetails,
-    };
-  }
   toString(): string {
     return `constrained(${this.baseShape}, ${this.introspection().stringDescription})`;
   }

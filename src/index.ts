@@ -15,10 +15,6 @@ export const undefinedValue: Shape<undefined> = {
     return value === undefined ? value : mismatch(undefinedValue, value);
   },
 
-  toJSON() {
-    return { type: 'undefined' };
-  },
-
   toString() {
     return 'undefined';
   },
@@ -27,10 +23,6 @@ export const undefinedValue: Shape<undefined> = {
 export const nullValue: Shape<null> = {
   verify(value: unknown) {
     return value === null ? value : mismatch(undefinedValue, value);
-  },
-
-  toJSON() {
-    return { type: 'null' };
   },
 
   toString() {

@@ -11,12 +11,6 @@ class PrimitiveShape<T> implements Shape<T> {
     return typeof value === this.typeId ? (value as T) : mismatch(this, value);
   }
 
-  toJSON() {
-    return {
-      type: this.typeId,
-    };
-  }
-
   toString() {
     return this.typeId;
   }

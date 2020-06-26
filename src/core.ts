@@ -2,7 +2,6 @@ import { extendedTypeOf } from './util';
 
 export interface Shape<T> {
   verify(value: unknown): Mismatch | T;
-  toJSON(): {};
   toString(): string;
 }
 

@@ -16,13 +16,6 @@ class LiteralShape<T extends number | string | boolean> implements Shape<T> {
     return givenValue === this.value ? (givenValue as T) : mismatch(this, givenValue);
   }
 
-  toJSON() {
-    return {
-      type: 'literal',
-      value: this.value,
-    };
-  }
-
   toString(): string {
     return JSON.stringify(this.value);
   }

@@ -5,12 +5,6 @@ export const unknown: Shape<unknown> = {
     return value;
   },
 
-  toJSON() {
-    return {
-      type: 'unknown',
-    };
-  },
-
   toString() {
     return 'unknown';
   },
@@ -19,12 +13,6 @@ export const unknown: Shape<unknown> = {
 export const something: Shape<NonNullable<unknown>> = {
   verify(value: unknown) {
     return value === null || value === undefined ? mismatch(something, value) : value;
-  },
-
-  toJSON() {
-    return {
-      type: 'something',
-    };
   },
 
   toString() {
