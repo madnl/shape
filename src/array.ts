@@ -1,6 +1,10 @@
 import { Shape } from '.';
 import { Mismatch, mismatch, isMismatch, nestedMismatch } from './core';
 
+/**
+ * Shape of an array where all items have the specified itemType
+ * @param itemType The type of the items in the array
+ */
 export function array<T>(itemType: Shape<T>): Shape<T[]> {
   return new ArrayShape(itemType);
 }

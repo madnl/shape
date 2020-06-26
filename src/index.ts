@@ -9,6 +9,7 @@ export { union } from './union';
 export { literal } from './literal';
 export { tuple } from './tuple';
 export { objectMap } from './objectMap';
+export { constrained } from './constraint';
 
 export const undefinedValue: Shape<undefined> = {
   verify(value: unknown) {

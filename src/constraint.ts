@@ -1,44 +1,39 @@
 import { Shape, Mismatch, isMismatch, mismatch } from './core';
 
-const defaultIntrospect = (): Introspection => ({
-  jsonDetails: '<unspecified>',
-  stringDescription: '<unspecified>',
-});
+/**
+ * Describes a shape
+ */
+export type Description = {
+  /**
+   * An identifier to describe a given constraint
+   */
+  id: string;
+};
 
+/**
+ * Create a more specific shape by adding a boolean constraint on an
+ * existing shape
+ * @param shape The shape to be made more specific
+ * @param predicate A function taking a value matching the base shape which returns true/false
+ * @param description An optional description to be associated with this new shape.
+ */
 export function constrained<T>(
   shape: Shape<T>,
   predicate: (value: T) => boolean,
-  introspect?: string | Introspection | (() => Introspection)
-) {
-  return new Constraint(
-    shape,
-    predicate,
-    typeof introspect === 'string'
-      ? () => ({ jsonDetails: introspect, stringDescription: introspect })
-      : typeof introspect === 'object'
-      ? () => introspect
-      : introspect || defaultIntrospect
-  );
+  description: Readonly<Description>
+): Shape<T> {
+  return new Constraint(shape, predicate, description);
 }
-
-type Introspection = {
-  jsonDetails: unknown;
-  stringDescription: string;
-};
 
 class Constraint<T> implements Shape<T> {
   readonly baseShape: Shape<T>;
   readonly predicate: (value: T) => boolean;
-  readonly introspection: () => Introspection;
+  readonly description: Readonly<Description>;
 
-  constructor(
-    baseShape: Shape<T>,
-    predicate: (value: T) => boolean,
-    introspection: () => Introspection
-  ) {
+  constructor(baseShape: Shape<T>, predicate: (value: T) => boolean, description: Description) {
     this.baseShape = baseShape;
     this.predicate = predicate;
-    this.introspection = introspection;
+    this.description = description;
   }
 
   verify(value: unknown): T | Mismatch {
@@ -50,6 +45,6 @@ class Constraint<T> implements Shape<T> {
   }
 
   toString(): string {
-    return `constrained(${this.baseShape}, ${this.introspection().stringDescription})`;
+    return `${this.baseShape} & Constrained<${JSON.stringify(this.description.id)}>`;
   }
 }

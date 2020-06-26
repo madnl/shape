@@ -26,4 +26,8 @@ describe('array', () => {
     0,
     { length: 0 },
   ]);
+
+  test('toString includes type of item', () => {
+    expect(array(record({ foo: string })).toString()).toBe('Array<{ foo: string }>');
+  });
 });
