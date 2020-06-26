@@ -3,7 +3,7 @@ import { string, number } from './index';
 import { objectMap } from './index';
 import { union } from './index';
 import { literal } from './index';
-import { check } from './core';
+import { expectMatch } from './core';
 
 const StringField = record({ fieldType: literal('stringField'), value: string });
 const NumberField = record({ fieldType: literal('numberField'), value: number });
@@ -29,4 +29,4 @@ const payload = {
   },
 };
 
-check(Moneyball, payload);
+expectMatch(Moneyball, payload);

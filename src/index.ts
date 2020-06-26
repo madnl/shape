@@ -1,7 +1,7 @@
 import { Shape, mismatch } from './core';
 import { union } from './union';
 
-export { Shape, guard, validate, check } from './core';
+export { Shape, isMatch, validate, expectMatch, ShapeMismatchError } from './core';
 export { record, partial } from './object';
 export { array } from './array';
 export { string, number, boolean } from './primitive';

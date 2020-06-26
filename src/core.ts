@@ -1,24 +1,56 @@
 import { extendedTypeOf } from './util';
 
+/**
+ * Interface for a shape describing a type of data.
+ */
 export interface Shape<T> {
+  /**
+   * Verify if the shape matches a given value
+   * @param value The value to be checked
+   * @returns The same input value, if check was successful or a Mismatch object if the check failed.
+   */
   verify(value: unknown): Mismatch | T;
+
+  /**
+   * All shape objects should provide a toString implementation for nice error messages.
+   */
   toString(): string;
 }
 
-export type Static<T extends Shape<unknown>> = T extends Shape<infer U> ? U : never;
+/**
+ * Obtain a static type from a shape.
+ *
+ * Example:
+ *
+ * ```
+ * const User = record({ id: number, name: string });
+ *
+ * type User = Static<typeof User>;
+ * ```
+ */
+export type Static<T extends Shape<any>> = T extends Shape<infer U> ? U : never;
 
+/**
+ * The result from calling the `validate` method.
+ */
 export type ValidationResult<T> =
   | { success: true; value: T }
-  | {
-      success: false;
-      mismatch: {
-        expectedShape: Shape<unknown>;
-        givenValue: unknown;
-        message: string;
-        path: string;
-      };
-    };
+  | { success: false; mismatch: MismatchDescription };
 
+export type MismatchDescription = {
+  expectedShape: Shape<unknown>;
+  givenValue: unknown;
+  message: string;
+  path: string;
+};
+
+/**
+ * Validate that shape matches a value
+ * @param shape The shape to be matched
+ * @param value The value to check against the shape
+ * @returns A union of a success case, providing the same input value, but typed with the type associated
+ *          with the shape, or a failure case, providing a description of the mismatch.
+ */
 export function validate<T>(shape: Shape<T>, value: unknown): ValidationResult<T> {
   const result = shape.verify(value);
   return isMismatch(result)
@@ -34,20 +66,40 @@ export function validate<T>(shape: Shape<T>, value: unknown): ValidationResult<T
     : { success: true, value: result };
 }
 
-export function guard<T>(shape: Shape<T>, value: unknown): value is T {
+/**
+ * Verify whether the shape matches a given value. This boolean function acts as
+ * a type guard. In blocks of code executed conditionally when this function returns
+ * true, the value will become typed with the type associated to the shape.
+ *
+ * @param shape The shape to be matched
+ * @param value The value to check against the shape
+ * @returns true if shape matches value, false otherwise
+ */
+export function isMatch<T>(shape: Shape<T>, value: unknown): value is T {
   return !isMismatch(shape.verify(value));
 }
 
-export function check<T>(shape: Shape<T>, value: unknown): T {
+/**
+ * Expect that the given shape matches the given value. If there's a mismatch,
+ * throw an exception
+ * @param shape The shape to be matched
+ * @param value The value to check against the shape
+ * @returns The same input value, but typed with the type associated with the shape
+ * @throws ShapeMismatchError if there is a mismatch
+ */
+export function expectMatch<T>(shape: Shape<T>, value: unknown): T {
   const result = shape.verify(value);
   if (isMismatch(result)) {
-    throw new ValidationError(result);
+    throw new ShapeMismatchError(result);
   }
   return result;
 }
 
-export class ValidationError extends Error {
-  public readonly mismatch: Mismatch;
+/**
+ * Exception thrown on shape match.
+ */
+export class ShapeMismatchError extends Error {
+  private readonly mismatch: Mismatch;
 
   constructor(mismatch: Mismatch) {
     super(mismatch.message());
@@ -67,7 +119,9 @@ export class Mismatch {
   }
 
   message(): string {
-    return `Error at ${joinPath}: Expected ${this.shape} but got ${extendedTypeOf(this.value)}`;
+    return `Error at ${joinPath(this.path)}: Expected ${this.shape} but got ${extendedTypeOf(
+      this.value
+    )}`;
   }
 }
 

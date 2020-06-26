@@ -1,15 +1,10 @@
-import { guard } from '..';
 import { literal } from '..';
+import { testAccept, testReject } from './util';
 
 describe('literal', () => {
-  test('matches exact literal value', () => {
-    expect(guard(literal(3), 3)).toBe(true);
-    expect(guard(literal('foo'), 'foo')).toBe(true);
-  });
+  testAccept(literal(3), [3]);
+  testAccept(literal('foo'), ['foo']);
 
-  test('does not match values unequal to the given value', () => {
-    expect(guard(literal(3), 4)).toBe(false);
-    expect(guard(literal(3), 'foo')).toBe(false);
-    expect(guard(literal(''), 'foo')).toBe(false);
-  });
+  testReject(literal(3), [4, 'foo', undefined, null, 4.2]);
+  testReject(literal('foo'), ['', 'foo1', 'foo ', 'fo', null, undefined]);
 });

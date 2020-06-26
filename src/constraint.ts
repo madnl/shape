@@ -7,7 +7,7 @@ export type Description = {
   /**
    * An identifier to describe a given constraint
    */
-  id: string;
+  tag: string;
 };
 
 /**
@@ -45,6 +45,6 @@ class Constraint<T> implements Shape<T> {
   }
 
   toString(): string {
-    return `${this.baseShape} & Constrained<${JSON.stringify(this.description.id)}>`;
+    return `${this.baseShape} & Constrained<${JSON.stringify(this.description.tag)}>`;
   }
 }

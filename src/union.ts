@@ -1,4 +1,4 @@
-import { Shape, guard, mismatch, Mismatch } from './core';
+import { Shape, isMatch, mismatch, Mismatch } from './core';
 
 export function union<T1, T2>(shape1: Shape<T1>, shape2: Shape<T2>): Shape<T1 | T2>;
 export function union<T1, T2, T3>(
@@ -31,7 +31,7 @@ class UnionShape<T> implements Shape<T> {
   }
 
   verify(value: unknown): Mismatch | T {
-    if (this.shapes.find((shape) => guard(shape, value))) {
+    if (this.shapes.find((shape) => isMatch(shape, value))) {
       return value as T;
     } else {
       return mismatch(this, value);
