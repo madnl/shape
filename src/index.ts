@@ -5,7 +5,7 @@ export { string, number, boolean } from './primitive';
 export { union } from './union';
 export { literal } from './literal';
 export { tuple } from './tuple';
-export { objectMap } from './objectMap';
+export { dictionary } from './dictionary';
 export { constrained } from './constraint';
 export { nullValue, undefinedValue, nullable, nullish, optional } from './optional';
 export { intersection } from './intersection';

@@ -1,6 +1,6 @@
 import { Shape, mismatch, Mismatch, isMismatch, nestedMismatch } from './core';
 
-export function objectMap<V>(valueType: Shape<V>): Shape<Record<string, V>> {
+export function dictionary<V>(valueType: Shape<V>): Shape<Record<string, V>> {
   return new ObjectMapShape(valueType);
 }
 
