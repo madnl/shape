@@ -1,9 +1,12 @@
 import { Shape, mismatch } from './core';
 import { union } from './union';
 
-export const undefinedValue: Shape<undefined> = {
+/**
+ * Matches the `undefined` JS value.
+ */
+export const undefinedLiteral: Shape<undefined> = {
   verify(value: unknown) {
-    return value === undefined ? value : mismatch(undefinedValue, value);
+    return value === undefined ? value : mismatch(undefinedLiteral, value);
   },
 
   toString() {
@@ -11,9 +14,12 @@ export const undefinedValue: Shape<undefined> = {
   },
 };
 
-export const nullValue: Shape<null> = {
+/**
+ * Matches the null value.
+ */
+export const nullLiteral: Shape<null> = {
   verify(value: unknown) {
-    return value === null ? value : mismatch(undefinedValue, value);
+    return value === null ? value : mismatch(nullLiteral, value);
   },
 
   toString() {
@@ -21,14 +27,29 @@ export const nullValue: Shape<null> = {
   },
 };
 
+/**
+ * Extends a shape to also accept null or undefined.
+ * @param underlyingType The base shape
+ * @returns a shape which matches the same values as the provided shape and also null or undefined
+ */
 export function nullish<T>(underlyingType: Shape<T>): Shape<T | null | undefined> {
-  return union(underlyingType, nullValue, undefinedValue);
+  return union(underlyingType, nullLiteral, undefinedLiteral);
 }
 
+/**
+ * Extends a shape to also accept undefined.
+ * @param underlyingType The base shape
+ * @returns a shape which matches the same values as the provided shape and also undefined
+ */
 export function optional<T>(underlyingType: Shape<T>): Shape<T | undefined> {
-  return union(underlyingType, undefinedValue);
+  return union(underlyingType, undefinedLiteral);
 }
 
+/**
+ * Extends a shape to also accept null.
+ * @param underlyingType The base shape
+ * @returns a shape which matches the same values as the provided shape and also null
+ */
 export function nullable<T>(underlyingType: Shape<T>): Shape<T | null> {
-  return union(underlyingType, nullValue);
+  return union(underlyingType, nullLiteral);
 }

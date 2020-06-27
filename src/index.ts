@@ -7,5 +7,5 @@ export { literal } from './literal';
 export { tuple } from './tuple';
 export { dictionary } from './dictionary';
 export { constrained } from './constraint';
-export { nullValue, undefinedValue, nullable, nullish, optional } from './optional';
+export { nullLiteral, undefinedLiteral, nullable, nullish, optional } from './optional';
 export { intersection } from './intersection';
