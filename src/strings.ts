@@ -1,6 +1,6 @@
-import { constrained } from './constraint';
-import { string } from './primitive';
-import { Shape } from './core';
+import { constrained } from './lib/constraint';
+import { string } from './lib/primitive';
+import { Shape } from './lib/core';
 
 /**
  * Strings which have at least one character.

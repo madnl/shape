@@ -1,5 +1,5 @@
 import { validate, Shape, isMatch, expectMatch, ShapeMismatchError } from '../index';
-import { Mismatch } from '../core';
+import { Mismatch } from '../lib/core';
 
 describe('core', () => {
   describe('validate', () => {

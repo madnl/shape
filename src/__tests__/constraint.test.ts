@@ -1,6 +1,6 @@
 import { testAccept, testReject } from './util';
 import { number, constrained } from '..';
-import { isMatch } from '../core';
+import { isMatch } from '../lib/core';
 
 describe('constraint', () => {
   const isPositive = (x: number) => x >= 0;

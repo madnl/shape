@@ -1,4 +1,4 @@
-import { Shape } from '.';
+import { Shape } from '..';
 import { Mismatch, mismatch } from './core';
 
 /**

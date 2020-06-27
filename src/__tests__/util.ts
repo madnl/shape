@@ -1,6 +1,6 @@
 import { Shape, isMatch } from '..';
-import { constrained } from '../constraint';
-import { unknown } from '../unknown';
+import { constrained } from '../lib/constraint';
+import { unknown } from '../lib/unknown';
 import { Mismatch } from '../core';
 
 export function testAccept(shape: Shape<unknown>, values: readonly unknown[]) {

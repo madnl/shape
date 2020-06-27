@@ -1,5 +1,5 @@
-import { constrained } from './constraint';
-import { number } from './primitive';
+import { constrained } from './lib/constraint';
+import { number } from './lib/primitive';
 
 /**
  * Integer numbers, as specified by Number.isInteger

@@ -1,7 +1,7 @@
 import { testAccept, testReject } from './util';
 import { union, number, string, record, literal } from '..';
 import * as Mocks from './mocks';
-import { Mismatch } from '../core';
+import { Mismatch } from '../lib/core';
 
 describe('union', () => {
   testAccept(union(string, number), ['abc', 123]);

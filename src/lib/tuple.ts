@@ -1,4 +1,4 @@
-import { Shape } from '.';
+import { Shape } from '..';
 import { Mismatch, mismatch, isMismatch, nestedMismatch, Static } from './core';
 
 type TupleOfShapes = readonly Shape<unknown>[];

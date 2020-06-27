@@ -1,6 +1,6 @@
 import { testAccept, testReject } from './util';
 import { string, number } from '..';
-import { boolean } from '../primitive';
+import { boolean } from '../lib/primitive';
 
 describe('primitive', () => {
   describe('string', () => {

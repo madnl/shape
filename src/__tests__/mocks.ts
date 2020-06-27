@@ -1,5 +1,5 @@
-import { Mismatch, Shape } from '../core';
-import { unknown } from '../unknown';
+import { Mismatch, Shape } from '../lib/core';
+import { unknown } from '../lib/unknown';
 
 export function matchedShape() {
   return {

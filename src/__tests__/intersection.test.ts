@@ -1,8 +1,7 @@
 import { testAccept, testReject } from './util';
 import { intersection, number, record, string, boolean } from '..';
 import * as Mocks from './mocks';
-import { Mismatch } from '../core';
-import { unknown } from '../unknown';
+import { Mismatch } from '../lib/core';
 
 describe('intersection', () => {
   const shape = intersection(

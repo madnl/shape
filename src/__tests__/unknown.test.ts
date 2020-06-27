@@ -1,5 +1,5 @@
 import { testAccept, testReject } from './util';
-import { unknown, something } from '../unknown';
+import { unknown, something } from '../lib/unknown';
 
 describe('unknown', () => {
   testAccept(unknown, [0, 1, -1, 0.4, {}, [], [12], { a: 3 }, null, undefined, '', 'abc']);
