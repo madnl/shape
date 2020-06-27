@@ -1,6 +1,10 @@
 import { Shape } from '.';
 import { Mismatch, mismatch } from './core';
 
+/**
+ * Creates a shape that matches only the exact primitive value provided.
+ * @param literalValue The value to match. Only string, number or booleans are supported.
+ */
 export function literal<T extends string | number | boolean>(literalValue: T): Shape<T> {
   return new LiteralShape(literalValue);
 }
