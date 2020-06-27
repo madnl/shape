@@ -1,5 +1,12 @@
 import { Shape, mismatch, Mismatch, isMismatch, nestedMismatch } from './core';
 
+/**
+ * Shape which matches an object where all values are of the given shape. It
+ * is assumed that keys are of type string.
+ *
+ * @param valueType The shape of the value
+ * @returns a shape which matches objects where values have the specified shape.
+ */
 export function dictionary<V>(valueType: Shape<V>): Shape<Record<string, V>> {
   return new ObjectMapShape(valueType);
 }
