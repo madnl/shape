@@ -10,9 +10,9 @@ export function matchedShape() {
   };
 }
 
-export function mismatchedShape(mismatch: Mismatch) {
+export function mismatchedShape(expectedMismatch: Mismatch = mismatch()) {
   return {
-    verify: jest.fn(() => mismatch),
+    verify: jest.fn(() => expectedMismatch),
     toString() {
       return 'mock';
     },

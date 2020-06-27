@@ -1,5 +1,12 @@
 import { Shape, isMatch, mismatch, Mismatch } from './core';
 
+/**
+ * Define a shape which, given the provided argument shapes, will match a value
+ * if at least one argument shape matches the value and will mismatch if all
+ * argument shapes fail to match the value
+ * @param {...Shape} shapes The list of candidate shapes
+ * @returns a shape that matches a value if any of the argument shapes matches the value
+ */
 export function union<T1, T2>(shape1: Shape<T1>, shape2: Shape<T2>): Shape<T1 | T2>;
 export function union<T1, T2, T3>(
   shape1: Shape<T1>,
