@@ -1,18 +1,26 @@
 import { constrained } from './constraint';
 import { number } from './primitive';
 
-export const integer = constrained(number, Number.isInteger, 'integer');
+/**
+ * Integer numbers, as specified by Number.isInteger
+ */
+export const integer = constrained(number, Number.isInteger, { tag: 'integer' });
 
-export const positiveNumber = constrained(number, (x) => x >= 0, '>0');
+/**
+ * Numbers which are greater or equal than zero
+ */
+export const positiveNumber = constrained(number, (x) => x >= 0, { tag: 'positiveNumber' });
 
-export const positiveInteger = constrained(
-  number,
-  (x) => Number.isInteger(x) && x >= 0,
-  'integer>=0'
-);
+/**
+ * Integers which are greater or equal than zero
+ */
+export const positiveInteger = constrained(number, (x) => Number.isInteger(x) && x >= 0, {
+  tag: 'positiveInteger',
+});
 
-export const nonZeroPositiveInteger = constrained(
-  number,
-  (x) => Number.isInteger(x) && x > 0,
-  'integer>0'
-);
+/**
+ * Integers which are strictly greater or equal than zero
+ */
+export const nonZeroPositiveInteger = constrained(number, (x) => Number.isInteger(x) && x > 0, {
+  tag: 'nonZeroPositiveInteger',
+});
