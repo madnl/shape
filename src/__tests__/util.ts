@@ -1,6 +1,7 @@
 import { Shape, isMatch } from '..';
 import { constrained } from '../constraint';
 import { unknown } from '../unknown';
+import { Mismatch } from '../core';
 
 export function testAccept(shape: Shape<unknown>, values: readonly unknown[]) {
   values.forEach((value) => {
@@ -16,8 +17,4 @@ export function testReject(shape: Shape<unknown>, values: readonly unknown[]) {
       expect(isMatch(shape, value)).toBe(false);
     });
   });
-}
-
-export function shapeMock(predicate: (value: unknown) => boolean): Shape<unknown> {
-  return constrained(unknown, predicate, { tag: 'mock' });
 }
