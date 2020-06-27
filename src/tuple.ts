@@ -7,6 +7,13 @@ type TypeFromShapeTuple<ArrayT> = {
   [K in keyof ArrayT]: ArrayT[K] extends Shape<infer U> ? U : never;
 };
 
+/**
+ * Shape that matches array which have a fixed length and where the items
+ * match the corresponding shapes passed ar arguments.
+ *
+ * @param itemTypes The types of the items. The items are matched positionally
+ * @returns An array shape with a fixed length and where individual items match the corresponding shapes
+ */
 export function tuple<ArrayT extends TupleOfShapes>(
   ...itemTypes: ArrayT
 ): Shape<TypeFromShapeTuple<ArrayT>> {
