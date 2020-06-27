@@ -8,28 +8,50 @@ type TypeFromObjectShape<ObjShapeT extends { [key: string]: Shape<unknown> }> = 
 
 type FieldShapes = { [key: string]: Shape<unknown> };
 
+/**
+ * Shape for objects that must include the provided properties.
+ *
+ * @param properties An object mapping property names to property shapes
+ * @returns A shape matching objects with the given required fields
+ */
 export function record<ObjShapeT extends FieldShapes>(
-  fieldShapes: ObjShapeT
+  properties: ObjShapeT
 ): Shape<TypeFromObjectShape<ObjShapeT>> {
-  return new ObjectShape(fieldShapes, VerificationCriteria.Required);
+  return new ObjectShape(properties, VerificationCriteria.Required);
 }
 
+/**
+ * Shape for objects that include the described properties, or do not
+ * include the property at all.
+ *
+ * @param properties An object mapping property names to optional property shapes
+ * @returns A shape matching objects with the given optional fields.
+ */
 export function partial<ObjShapeT extends FieldShapes>(
-  fieldShapes: ObjShapeT
+  properties: ObjShapeT
 ): Shape<Partial<TypeFromObjectShape<ObjShapeT>>> {
-  return new ObjectShape(fieldShapes, VerificationCriteria.Optional);
+  return new ObjectShape(properties, VerificationCriteria.Optional);
 }
 
-export function struct<
+/**
+ * A shape describing an object where some of the properties are required and some
+ * properties are optional.
+ *
+ * @param properties.required An object mapping required property names to their respective shapes
+ * @param properties.optional An object mapping optional property names to their respective shapes
+ * @returns An shape that matches object which include the required properties and which may include
+ *          the optional properties with the associated property shapes.
+ */
+export function structure<
   RequiredObjShapeT extends FieldShapes,
   OptionalObjShapeT extends FieldShapes
->(params: {
+>(properties: {
   required: RequiredObjShapeT;
   optional: OptionalObjShapeT;
 }): Shape<
   TypeFromObjectShape<RequiredObjShapeT> & Partial<TypeFromObjectShape<OptionalObjShapeT>>
 > {
-  return intersection(record(params.required), partial(params.optional));
+  return intersection(record(properties.required), partial(properties.optional));
 }
 
 enum VerificationCriteria {
@@ -66,6 +88,9 @@ class ObjectShape<ObjShapeT extends FieldShapes> implements Shape<TypeFromObject
   }
 
   toString() {
-    return `{ ${this.pairs.map(({ key, shape }) => `${key}: ${shape}`)} }`;
+    const objStr = `{ ${this.pairs.map(({ key, shape }) => `${key}: ${shape}`).join(', ')} }`;
+    return this.verificationCritera === VerificationCriteria.Optional
+      ? `Partial<${objStr}>`
+      : objStr;
   }
 }

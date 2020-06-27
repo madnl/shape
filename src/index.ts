@@ -1,5 +1,5 @@
 export { Shape, isMatch, validate, expectMatch, ShapeMismatchError } from './core';
-export { record, partial } from './object';
+export { record, partial, structure } from './object';
 export { array } from './array';
 export { string, number, boolean } from './primitive';
 export { union } from './union';
